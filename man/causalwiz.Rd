@@ -15,3 +15,11 @@ visualizing results.
 \details{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/carminemnc/causalwiz}
+  \item Report bugs at \url{https://github.com/carminemnc/causalwiz/issues}
+}
+
+}
