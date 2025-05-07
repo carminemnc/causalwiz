@@ -1,7 +1,5 @@
 <img src="man/figures/logo.png" align="right" height="139"/>
 
-## Overview
-
 `causalwiz` is an R package for causal inference analysis. It provides tools for estimating treatment effects using various methods including Inverse Probability Weighting (IPW) and Augmented Inverse Probability Weighting (AIPW).
 
 ## Installation
