@@ -1,17 +1,31 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# causalwiz
+
+<!-- badges: start -->
+<!-- badges: end -->
+
 <img src="man/figures/logo.png" align="right" height="139"/>
 
-`causalwiz` is an R package for causal inference analysis. It provides tools for estimating treatment effects using various methods including Inverse Probability Weighting (IPW) and Augmented Inverse Probability Weighting (AIPW).
+`causalwiz` is an R package for causal inference analysis. It provides
+tools for estimating treatment effects using various methods including
+Inverse Probability Weighting (IPW) and Augmented Inverse Probability
+Weighting (AIPW).
 
 ## Installation
 
-You can install the development version of causalwiz from GitHub with:
+You can install the development version of causalwiz from
+[GitHub](https://github.com/carminemnc) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("carminemnc/causalwiz")
+# install.packages("pak")
+pak::pak("carminemnc/causalwiz")
 ```
 
-## Usage
+## Example
+
+This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(causalwiz)
@@ -27,4 +41,14 @@ results <- ipw_estimators(
   treatment = "w",
   covariates = c("age", "polviews", "income", "educ", "marital", "sex")
 )
+#> Generated formula:
+#>  w ~age+polviews+income+educ+marital+sex 
+#> 
+#> Difference-in-means estimation (benchmark):
+#>      Estimate    Std. Error       t value      Pr(>|t|) 
+#>  -0.346014670   0.004804239 -72.022788469   0.000000000 
+#> 
+#>  IPW estimation:
+#>      Estimate     Std Error       t value      Pr(>|t|) 
+#>  -0.346014670   0.005786584 -59.796012912   0.000000000
 ```
