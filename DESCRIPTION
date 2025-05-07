@@ -1,0 +1,30 @@
+Package: causalwiz
+Type: Package
+Title: Tools for Causal Inference Analysis and Visualization
+Version: 0.1.0
+Author: Carmine Minichini
+Maintainer: Carmine Minichini <carmine.mnc@gmail.com>
+Description: A comprehensive toolkit for causal inference analysis in R. 
+    Provides functions for causal identification, estimation of treatment effects,
+    sensitivity analysis, and visualization of causal relationships. 
+    Implements various methods including propensity score matching, 
+    inverse probability weighting, instrumental variables, and 
+    difference-in-differences approaches. Features intuitive visualization 
+    tools for causal diagrams and treatment effect estimates.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    tidyr,
+    lmtest,
+    sandwich,
+    grf,
+    glmnet,
+    splines,
+    ggplot2,
+    stats,
+    rlang
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
+Config/testthat/parallel: true
