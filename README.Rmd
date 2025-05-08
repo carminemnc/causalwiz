@@ -32,9 +32,7 @@ You can install the development version of causalwiz from [GitHub](https://githu
 pak::pak("carminemnc/causalwiz")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Usage
 
 ```{r example}
 library(causalwiz)

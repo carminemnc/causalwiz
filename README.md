@@ -1,8 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# causalwiz
-
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -15,17 +12,14 @@ Weighting (AIPW).
 
 ## Installation
 
-You can install the development version of causalwiz from
-[GitHub](https://github.com/carminemnc) with:
+You can install the package via Github repository:
 
 ``` r
 # install.packages("pak")
 pak::pak("carminemnc/causalwiz")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Usage
 
 ``` r
 library(causalwiz)
