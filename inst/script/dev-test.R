@@ -2,9 +2,15 @@
 library(devtools)
 load_all()
 
+theme_set(ctheme("light"))
+
 # Load data
 data(welfare_small)
 data <- welfare_small
+
+#########
+#########
+#########
 
 # Treatment: does the the gov't spend too much on "welfare" (1) or "assistance to the poor" (0)
 treatment <- "w"
@@ -36,6 +42,10 @@ keep.idx <- as.logical(rbinom(n=nrow(data_real), prob=prob.keep, size = 1))
 
 # Dropping
 data_real <- data_real[keep.idx,]
+
+###
+###
+###
 
 
 #### AIPW estimation

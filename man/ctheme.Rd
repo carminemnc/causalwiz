@@ -4,11 +4,23 @@
 \alias{ctheme}
 \title{Custom theme for ggplot2}
 \usage{
-ctheme()
+ctheme(mode = "dark")
+}
+\arguments{
+\item{mode}{Character string specifying the theme mode ("dark" or "light")}
 }
 \value{
 A ggplot2 theme object
 }
 \description{
-Creates a custom dark theme for ggplot2 visualizations
+Creates a custom theme for ggplot2 visualizations with support for dark and light modes
+}
+\examples{
+\dontrun{
+# Dark mode
+ggplot(...) + ctheme("dark")
+
+# Light mode
+ggplot(...) + ctheme("light")
+}
 }

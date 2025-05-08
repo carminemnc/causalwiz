@@ -3,24 +3,68 @@ NULL
 
 #' Custom theme for ggplot2
 #'
-#' @description Creates a custom dark theme for ggplot2 visualizations
+#' @description Creates a custom theme for ggplot2 visualizations with support for dark and light modes
+#' @param mode Character string specifying the theme mode ("dark" or "light")
 #' @return A ggplot2 theme object
 #' @import ggplot2
 #' @export
-ctheme <- function() {
+#' @examples
+#' \dontrun{
+#' # Dark mode
+#' ggplot(...) + ctheme("dark")
+#'
+#' # Light mode
+#' ggplot(...) + ctheme("light")
+#' }
+ctheme <- function(mode = "dark") {
+  # Definizione colori
+  colors <- if (mode == "dark") {
+    list(
+      background = "#242728",
+      text = "#eaeaea",
+      grid_major = "grey30",
+      grid_minor = "grey20",
+      strip = "#0085A1"
+    )
+  } else if (mode == "light") {
+    list(
+      background = "#eaeaea",
+      text = "#242728",
+      grid_major = "grey70",
+      grid_minor = "grey80",
+      strip = "#0085A1"
+    )
+  } else {
+    stop("mode must be either 'dark' or 'light'")
+  }
+
+  # Crea il tema
   theme(
-    plot.background = element_rect(fill = "#242728"),
-    panel.background = element_rect(fill = "#242728"),
-    text = element_text(color = "#eaeaea"),
-    axis.text = element_text(color = "#eaeaea"),
-    axis.title = element_text(color = "#eaeaea"),
+    # Sfondi
+    plot.background = element_rect(fill = colors$background),
+    panel.background = element_rect(fill = colors$background),
+
+    # Testo
+    text = element_text(color = colors$text),
+    axis.text = element_text(color = colors$text),
+    axis.title = element_text(color = colors$text),
     title = element_text(face = 'italic', size = 13),
-    strip.background = element_rect(fill = "#0085A1"),
-    strip.text = element_text(color = "#eaeaea", face = "bold", size = 12),
-    panel.grid.major = element_line(color = "grey30"),
-    panel.grid.minor = element_line(color = "grey20"),
+
+    # Strip (facet)
+    strip.background = element_rect(fill = colors$strip),
+    strip.text = element_text(
+      color = if(mode == "dark") "#eaeaea" else "#FFFFFF",
+      face = "bold",
+      size = 12
+    ),
+
+    # Griglie
+    panel.grid.major = element_line(color = colors$grid_major),
+    panel.grid.minor = element_line(color = colors$grid_minor),
+
+    # Legenda
     legend.background = element_blank(),
-    legend.text = element_text(color = "#eaeaea"),
+    legend.text = element_text(color = colors$text),
     legend.title = element_blank(),
     legend.position = 'top'
   )
@@ -55,10 +99,9 @@ cov_bal_plot <- function(XX, unadjusted, adjusted) {
 
   p <- ggplot(pdatamelt, aes(x = .data$value,
                              y = factor(.data$covariate))) +
-    geom_point(size = 3, color = '#eaeaea') +
+    geom_point(size = 3) +
     geom_vline(xintercept = seq(0, 1, by = 0.25),
                linetype = "dashed",
-               color = "#eaeaea",
                alpha = 0.5) +
     facet_wrap(~type, ncol = 2) +
     labs(x = 'SMD', y = NULL, title = 'Covariates balance')
