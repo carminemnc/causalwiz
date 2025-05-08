@@ -22,10 +22,18 @@ NULL
 #' @param model_specification Character, type of model specification ('linear', 'interaction', or 'splines')
 #' @param output Logical, whether to return detailed output
 #' @param ... Additional arguments passed to underlying functions:
+#'        For IPW method:
+#'          cv.glmnet() arguments:
+#'            All arguments are supported with their default values.
+#'
 #'        For AIPW method:
-#'          - passed to causal_forest() (e.g., num.trees = 500)
-#'          - passed to average_treatment_effect() (e.g., target.sample = "control")
-#'        For IPW method: passed to cv.glmnet()
+#'          causal_forest() arguments:
+#'            All arguments are supported with num.trees defaulting to 100 instead of 2000.
+#'            Other arguments maintain their default values.
+#'
+#'          average_treatment_effect() arguments:
+#'            All arguments are supported with method defaulting to 'AIPW'.
+#'            Other arguments maintain their default values.
 #'
 #' @return If output=TRUE, returns a list containing:
 #'   \item{estimation_value}{The estimated treatment effect}
@@ -49,7 +57,9 @@ NULL
 #'   estimation_method = "IPW",
 #'   outcome = "y",
 #'   treatment = "w",
-#'   covariates = c("x1", "x2")
+#'   covariates = c("x1", "x2"),
+#'   model_specification = 'linear',
+#'   output = TRUE
 #' )
 #'
 #' # Using additional parameters with AIPW
@@ -59,9 +69,12 @@ NULL
 #'   outcome = "y",
 #'   treatment = "w",
 #'   covariates = c("x1", "x2"),
+#'   model_specification = 'linear',
 #'   output = TRUE,
-#'   target.sample = "control",
-#'   num.trees = 500
+#'   # causal_forest() arguments
+#'   num.trees = 100,
+#'   # average_treatment_effect() arguments
+#'   target.sample = "control"
 #' )
 #' }
 #'
@@ -88,39 +101,75 @@ ipw_estimators <- function(data,
   tvar <- data[[treatment]]
   ovar <- data[[outcome]]
 
+  # Validate treatment variable
+  if (!all(tvar %in% c(0, 1))) {
+    stop("Treatment variable must be binary (0 or 1)")
+  }
+
   # Get formula and create model matrix
-  XX <- stats::model.matrix(get_formula(covariates, model_specification), data)
+  XX <- try(stats::model.matrix(get_formula(covariates, model_specification), data))
+  if (inherits(XX, "try-error")) {
+    stop("Error creating model matrix. Check your covariates and model specification.")
+  }
 
   # Difference in means (benchmark)
-  diffm <- stats::lm(as.formula(paste0(outcome, '~', treatment)), data = data)
-  dim_results <- lmtest::coeftest(diffm, vcov. = sandwich::vcovHC(diffm, type = "HC2"))[2,]
+  diffm <- try({
+    model <- stats::lm(as.formula(paste0(outcome, '~', treatment)), data = data)
+    lmtest::coeftest(model, vcov. = sandwich::vcovHC(model, type = "HC2"))[2,]
+  })
 
-  # Print benchmark results
-  cat('\nDifference-in-means estimation (benchmark):\n')
-  print(dim_results)
+  if (!inherits(diffm, "try-error")) {
+    cat('\nDifference-in-means estimation (benchmark):\n')
+    print(diffm)
+  } else {
+    warning("Could not compute difference-in-means estimation")
+  }
 
   # Main estimation
   cat('\n', estimation_method, 'estimation:\n')
 
   if (estimation_method == 'AIPW') {
-    # Separa gli argomenti per causal_forest e average_treatment_effect
-    forest_args <- list(...)
-    ate_args <- list(...)
+    # Define base arguments for causal_forest
+    forest_base_args <- list(
+      X = XX,
+      W = tvar,
+      Y = ovar
+    )
 
-    # Rimuovi gli argomenti specifici di average_treatment_effect da forest_args
-    forest_args$target.sample <- NULL
+    # Get all additional arguments
+    extra_args <- list(...)
 
-    # Causal forest estimation
-    forest <- do.call(grf::causal_forest, c(
-      list(X = XX, W = tvar, Y = ovar, num.trees = 100),
-      forest_args
-    ))
+    # Set only num.trees default if not provided by user
+    if (is.null(extra_args$num.trees)) {
+      extra_args$num.trees <- 100
+    }
+    # Set only method default if not provided by user
+    if (is.null(extra_args$method)) {
+      extra_args$method <- 'AIPW'
+    }
 
-    # Estrazione ATE con argomenti aggiuntivi
-    forest.ate <- do.call(grf::average_treatment_effect, c(
-      list(forest, method = 'AIPW'),
-      ate_args
-    ))
+    # Define which arguments belong to average_treatment_effect
+    ate_params <- c("target.sample", "method", "subset",
+                    "debiasing.weights", "compliance.score",
+                    "num.trees.for.weights")
+
+    # Separate arguments for each function
+    ate_args <- extra_args[names(extra_args) %in% ate_params]
+    forest_args <- c(forest_base_args,extra_args[!names(extra_args) %in% ate_params])
+
+    # Fit causal forest
+    forest <- tryCatch({
+      do.call(grf::causal_forest, forest_args)
+    }, error = function(e) {
+      stop("Error in causal forest estimation: ", e$message)
+    })
+
+    # Calculate average treatment effect
+    forest.ate <- tryCatch({
+      do.call(grf::average_treatment_effect,c(list(forest = forest), ate_args))
+    }, error = function(e) {
+      stop("Error in average treatment effect calculation: ", e$message)
+    })
 
     e.hat <- forest$W.hat
 
@@ -134,10 +183,9 @@ ipw_estimators <- function(data,
     estimation <- unname(forest.ate[1])
 
   } else {
-    # IPW estimation with additional arguments
+    # IPW estimation
     logit <- do.call(glmnet::cv.glmnet, c(
-      list(x = XX, y = tvar, family = 'binomial'),
-      list(...)
+      list(x = XX, y = tvar, family = 'binomial')
     ))
 
     e.hat <- stats::predict(logit, XX, s = 'lambda.min', type = 'response')

@@ -1,4 +1,6 @@
 #' @importFrom rlang .data
+#' @import ggplot2 dplyr
+#' @importFrom tidyr pivot_longer
 NULL
 
 #' Custom theme for ggplot2
@@ -6,18 +8,18 @@ NULL
 #' @description Creates a custom theme for ggplot2 visualizations with support for dark and light modes
 #' @param mode Character string specifying the theme mode ("dark" or "light")
 #' @return A ggplot2 theme object
-#' @import ggplot2
-#' @export
 #' @examples
 #' \dontrun{
 #' # Dark mode
-#' ggplot(...) + ctheme("dark")
+#' theme_set(ctheme("dark"))
 #'
 #' # Light mode
-#' ggplot(...) + ctheme("light")
+#' theme_set(ctheme("light"))
 #' }
+#' @export
 ctheme <- function(mode = "dark") {
-  # Definizione colori
+
+  # Base colors
   colors <- if (mode == "dark") {
     list(
       background = "#242728",
@@ -38,13 +40,13 @@ ctheme <- function(mode = "dark") {
     stop("mode must be either 'dark' or 'light'")
   }
 
-  # Crea il tema
+  # Theme
   theme(
-    # Sfondi
+    # Backgrounds
     plot.background = element_rect(fill = colors$background),
     panel.background = element_rect(fill = colors$background),
 
-    # Testo
+    # Text
     text = element_text(color = colors$text),
     axis.text = element_text(color = colors$text),
     axis.title = element_text(color = colors$text),
@@ -58,11 +60,11 @@ ctheme <- function(mode = "dark") {
       size = 12
     ),
 
-    # Griglie
+    # Grids
     panel.grid.major = element_line(color = colors$grid_major),
     panel.grid.minor = element_line(color = colors$grid_minor),
 
-    # Legenda
+    # Legends
     legend.background = element_blank(),
     legend.text = element_text(color = colors$text),
     legend.title = element_blank(),
@@ -72,10 +74,11 @@ ctheme <- function(mode = "dark") {
 
 #' Create covariates balance plot
 #'
-#' @importFrom ggplot2 ggplot aes geom_point geom_vline facet_wrap labs
-#' @importFrom dplyr filter
-#' @importFrom tidyr pivot_longer
-#' @importFrom rlang .data
+#' @description
+#' Creates a plot comparing standardized mean differences (SMD) for covariates
+#' before and after adjustment. The plot displays two panels: one showing unadjusted
+#' SMDs and another showing adjusted SMDs. Values closer to zero indicate better
+#' balance between treatment and control groups.
 #' @param XX Matrix of covariates
 #' @param unadjusted Vector of unadjusted values
 #' @param adjusted Vector of adjusted values
@@ -116,7 +119,6 @@ cov_bal_plot <- function(XX, unadjusted, adjusted) {
 #' @param e.hat Vector of estimated propensity scores
 #' @param W Vector of treatment assignments
 #' @return A ggplot object
-#' @import ggplot2 dplyr
 #' @export
 prop_plot <- function(e.hat, W) {
   p <- data.frame(ps = e.hat, treatment = as.factor(W)) %>%

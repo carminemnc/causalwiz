@@ -18,9 +18,9 @@ Creates a custom theme for ggplot2 visualizations with support for dark and ligh
 \examples{
 \dontrun{
 # Dark mode
-ggplot(...) + ctheme("dark")
+theme_set(ctheme("dark"))
 
 # Light mode
-ggplot(...) + ctheme("light")
+theme_set(ctheme("light"))
 }
 }

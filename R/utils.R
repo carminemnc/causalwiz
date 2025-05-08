@@ -1,11 +1,13 @@
+#' @importFrom stats as.formula var
+#' @importFrom splines bs
+NULL
+
 #' Generate formula for model specification
 #'
 #' @description Provides a formula for model specification based on given variables and model type.
 #' @param vars Character vector of variable names.
 #' @param model_spec Character string specifying the model type: 'linear', 'interaction', or 'splines'.
 #' @return A formula object.
-#' @importFrom stats as.formula
-#' @importFrom splines bs
 #' @export
 get_formula <- function(vars, model_spec = 'linear') {
   if (model_spec == 'linear') {
@@ -21,7 +23,7 @@ get_formula <- function(vars, model_spec = 'linear') {
   # Print the formula for user reference
   cat("Generated formula:\n", paste("w", fmla), "\n")
 
-  return(as.formula(fmla))
+  return(stats::as.formula(fmla))
 }
 
 #' Calculate covariate balance metrics
@@ -31,7 +33,6 @@ get_formula <- function(vars, model_spec = 'linear') {
 #' @param W Vector of treatment assignments.
 #' @param e.hat Vector of estimated propensity scores.
 #' @return A list containing adjusted and unadjusted covariate balance metrics.
-#' @importFrom stats var
 #' @export
 aipw_balancer <- function(XX, W, e.hat) {
   # Unadjusted

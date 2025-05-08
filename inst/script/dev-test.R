@@ -2,7 +2,7 @@
 library(devtools)
 load_all()
 
-theme_set(ctheme("light"))
+theme_set(ctheme("dark"))
 
 # Load data
 data(welfare_small)
@@ -43,9 +43,21 @@ keep.idx <- as.logical(rbinom(n=nrow(data_real), prob=prob.keep, size = 1))
 # Dropping
 data_real <- data_real[keep.idx,]
 
-###
-###
-###
+#########
+#########
+#########
+
+#### IPW estimation
+
+results <- ipw_estimators(
+  data = data_real,
+  estimation_method = 'IPW',
+  outcome = outcome,
+  treatment = treatment,
+  covariates = covariates,
+  model_specification = 'linear',
+  output = TRUE,
+)
 
 
 #### AIPW estimation
@@ -58,8 +70,14 @@ results <- ipw_estimators(
   covariates = covariates,
   model_specification = 'linear',
   output = TRUE,
-  target.sample = "control"
+  # causal_forest() arguments
+  num.trees = 100,
+  # average_treatment_effect() arguments
+  target.sample = "overlap"
 )
+
+
+#### Diagnostics
 
 bal <- aipw_balancer(
   results$model_spec_matrix,

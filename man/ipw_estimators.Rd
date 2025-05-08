@@ -31,10 +31,18 @@ ipw_estimators(
 \item{output}{Logical, whether to return detailed output}
 
 \item{...}{Additional arguments passed to underlying functions:
-For AIPW method:
-  - passed to causal_forest() (e.g., num.trees = 500)
-  - passed to average_treatment_effect() (e.g., target.sample = "control")
-For IPW method: passed to cv.glmnet()}
+       For IPW method:
+         cv.glmnet() arguments:
+           All arguments are supported with their default values.
+
+       For AIPW method:
+         causal_forest() arguments:
+           All arguments are supported with num.trees defaulting to 100 instead of 2000.
+           Other arguments maintain their default values.
+
+         average_treatment_effect() arguments:
+           All arguments are supported with method defaulting to 'AIPW'.
+           Other arguments maintain their default values.}
 }
 \value{
 If output=TRUE, returns a list containing:
@@ -63,7 +71,9 @@ results <- ipw_estimators(
   estimation_method = "IPW",
   outcome = "y",
   treatment = "w",
-  covariates = c("x1", "x2")
+  covariates = c("x1", "x2"),
+  model_specification = 'linear',
+  output = TRUE
 )
 
 # Using additional parameters with AIPW
@@ -73,9 +83,12 @@ results_aipw <- ipw_estimators(
   outcome = "y",
   treatment = "w",
   covariates = c("x1", "x2"),
+  model_specification = 'linear',
   output = TRUE,
-  target.sample = "control",
-  num.trees = 500
+  # causal_forest() arguments
+  num.trees = 100,
+  # average_treatment_effect() arguments
+  target.sample = "control"
 )
 }
 
