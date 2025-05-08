@@ -2,5 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-dev/*
-!dev/*.R
+/dev/*
