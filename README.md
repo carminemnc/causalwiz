@@ -38,14 +38,4 @@ results <- ipw_estimators(
   treatment = "w",
   covariates = c("age", "polviews", "income", "educ", "marital", "sex")
 )
-#> Generated formula:
-#>  w ~age+polviews+income+educ+marital+sex 
-#> 
-#> Difference-in-means estimation (benchmark):
-#>      Estimate    Std. Error       t value      Pr(>|t|) 
-#>  -0.346014670   0.004804239 -72.022788469   0.000000000 
-#> 
-#>  IPW estimation:
-#>      Estimate     Std Error       t value      Pr(>|t|) 
-#>  -0.346216718   0.005788238 -59.813840608   0.000000000
 ```

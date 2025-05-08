@@ -47,5 +47,21 @@ results <- ipw_estimators(
   treatment = treatment,
   covariates = covariates,
   model_specification = 'linear',
-  output = TRUE
+  output = TRUE,
+  target.sample = "control"
+)
+
+bal <- aipw_balancer(
+  results$model_spec_matrix,
+  results$treatment_variable,
+  results$e_hat
+)
+
+cov_bal_plot(results$model_spec_matrix,
+             bal$unadjusted_cov,
+             bal$adjusted_cov)
+
+prop_plot(
+  results$e_hat,
+  results$treatment_variable
 )

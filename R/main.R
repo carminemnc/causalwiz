@@ -21,6 +21,11 @@ NULL
 #' @param covariates Character vector of covariate names
 #' @param model_specification Character, type of model specification ('linear', 'interaction', or 'splines')
 #' @param output Logical, whether to return detailed output
+#' @param ... Additional arguments passed to underlying functions:
+#'        For AIPW method:
+#'          - passed to causal_forest() (e.g., num.trees = 500)
+#'          - passed to average_treatment_effect() (e.g., target.sample = "control")
+#'        For IPW method: passed to cv.glmnet()
 #'
 #' @return If output=TRUE, returns a list containing:
 #'   \item{estimation_value}{The estimated treatment effect}
@@ -38,12 +43,25 @@ NULL
 #'   x2 = rnorm(100)
 #' )
 #'
+#' # Basic usage
 #' results <- ipw_estimators(
 #'   data = data,
 #'   estimation_method = "IPW",
 #'   outcome = "y",
 #'   treatment = "w",
 #'   covariates = c("x1", "x2")
+#' )
+#'
+#' # Using additional parameters with AIPW
+#' results_aipw <- ipw_estimators(
+#'   data = data,
+#'   estimation_method = "AIPW",
+#'   outcome = "y",
+#'   treatment = "w",
+#'   covariates = c("x1", "x2"),
+#'   output = TRUE,
+#'   target.sample = "control",
+#'   num.trees = 500
 #' )
 #' }
 #'
@@ -54,7 +72,8 @@ ipw_estimators <- function(data,
                            treatment,
                            covariates,
                            model_specification = 'linear',
-                           output = FALSE) {
+                           output = FALSE,
+                           ...) {
 
   # Input validation
   if (!estimation_method %in% c('IPW', 'AIPW')) {
@@ -70,11 +89,11 @@ ipw_estimators <- function(data,
   ovar <- data[[outcome]]
 
   # Get formula and create model matrix
-  XX <- model.matrix(get_formula(covariates, model_specification), data)
+  XX <- stats::model.matrix(get_formula(covariates, model_specification), data)
 
   # Difference in means (benchmark)
-  diffm <- lm(as.formula(paste0(outcome, '~', treatment)), data = data)
-  dim_results <- coeftest(diffm, vcov. = vcovHC(diffm, type = "HC2"))[2,]
+  diffm <- stats::lm(as.formula(paste0(outcome, '~', treatment)), data = data)
+  dim_results <- lmtest::coeftest(diffm, vcov. = sandwich::vcovHC(diffm, type = "HC2"))[2,]
 
   # Print benchmark results
   cat('\nDifference-in-means estimation (benchmark):\n')
@@ -84,45 +103,54 @@ ipw_estimators <- function(data,
   cat('\n', estimation_method, 'estimation:\n')
 
   if (estimation_method == 'AIPW') {
-    # Causal forest estimation
-    forest <- causal_forest(
-      X = XX,
-      W = tvar,
-      Y = ovar,
-      num.trees = 100
-    )
+    # Separa gli argomenti per causal_forest e average_treatment_effect
+    forest_args <- list(...)
+    ate_args <- list(...)
 
-    forest.ate <- average_treatment_effect(forest, method = 'AIPW')
+    # Rimuovi gli argomenti specifici di average_treatment_effect da forest_args
+    forest_args$target.sample <- NULL
+
+    # Causal forest estimation
+    forest <- do.call(grf::causal_forest, c(
+      list(X = XX, W = tvar, Y = ovar, num.trees = 100),
+      forest_args
+    ))
+
+    # Estrazione ATE con argomenti aggiuntivi
+    forest.ate <- do.call(grf::average_treatment_effect, c(
+      list(forest, method = 'AIPW'),
+      ate_args
+    ))
+
     e.hat <- forest$W.hat
 
     ate.results <- c(
       Estimate = unname(forest.ate[1]),
       "Std Error" = unname(forest.ate[2]),
       "t value" = unname(forest.ate[1]) / unname(forest.ate[2]),
-      "Pr(>|t|)" = 2 * (1 - pnorm(abs(unname(forest.ate[1]) / unname(forest.ate[2]))))
+      "Pr(>|t|)" = 2 * (1 - stats::pnorm(abs(unname(forest.ate[1]) / unname(forest.ate[2]))))
     )
 
     estimation <- unname(forest.ate[1])
 
   } else {
-    # IPW estimation
-    logit <- cv.glmnet(
-      x = XX,
-      y = tvar,
-      family = 'binomial'
-    )
+    # IPW estimation with additional arguments
+    logit <- do.call(glmnet::cv.glmnet, c(
+      list(x = XX, y = tvar, family = 'binomial'),
+      list(...)
+    ))
 
-    e.hat <- predict(logit, XX, s = 'lambda.min', type = 'response')
+    e.hat <- stats::predict(logit, XX, s = 'lambda.min', type = 'response')
 
     z <- ovar * (tvar / e.hat - (1 - tvar) / (1 - e.hat))
     ate.est <- mean(z)
-    ate.se <- sd(z) / sqrt(length(z))
+    ate.se <- stats::sd(z) / sqrt(length(z))
 
     ate.results <- c(
       Estimate = ate.est,
       "Std Error" = ate.se,
       "t value" = ate.est / ate.se,
-      "Pr(>|t|)" = 2 * (pnorm(1 - abs(ate.est / ate.se)))
+      "Pr(>|t|)" = 2 * (stats::pnorm(1 - abs(ate.est / ate.se)))
     )
 
     estimation <- ate.est

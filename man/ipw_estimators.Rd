@@ -11,7 +11,8 @@ ipw_estimators(
   treatment,
   covariates,
   model_specification = "linear",
-  output = FALSE
+  output = FALSE,
+  ...
 )
 }
 \arguments{
@@ -28,6 +29,12 @@ ipw_estimators(
 \item{model_specification}{Character, type of model specification ('linear', 'interaction', or 'splines')}
 
 \item{output}{Logical, whether to return detailed output}
+
+\item{...}{Additional arguments passed to underlying functions:
+For AIPW method:
+  - passed to causal_forest() (e.g., num.trees = 500)
+  - passed to average_treatment_effect() (e.g., target.sample = "control")
+For IPW method: passed to cv.glmnet()}
 }
 \value{
 If output=TRUE, returns a list containing:
@@ -50,12 +57,25 @@ data <- data.frame(
   x2 = rnorm(100)
 )
 
+# Basic usage
 results <- ipw_estimators(
   data = data,
   estimation_method = "IPW",
   outcome = "y",
   treatment = "w",
   covariates = c("x1", "x2")
+)
+
+# Using additional parameters with AIPW
+results_aipw <- ipw_estimators(
+  data = data,
+  estimation_method = "AIPW",
+  outcome = "y",
+  treatment = "w",
+  covariates = c("x1", "x2"),
+  output = TRUE,
+  target.sample = "control",
+  num.trees = 500
 )
 }
 

@@ -34,7 +34,7 @@ pak::pak("carminemnc/causalwiz")
 
 ## Usage
 
-```{r example}
+```{r, eval=FALSE}
 library(causalwiz)
 
 # Load example data
