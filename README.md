@@ -1,5 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# causalwiz
+
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -44,5 +47,5 @@ results <- ipw_estimators(
 #> 
 #>  IPW estimation:
 #>      Estimate     Std Error       t value      Pr(>|t|) 
-#>  -0.346014670   0.005786584 -59.796012912   0.000000000
+#>  -0.346216718   0.005788238 -59.813840608   0.000000000
 ```

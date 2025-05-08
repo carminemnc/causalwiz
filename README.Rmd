@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the development version of causalwiz from [GitHub](https://github.com/carminemnc) with:
+You can install the package via Github repository:
 
 ``` r
 # install.packages("pak")
