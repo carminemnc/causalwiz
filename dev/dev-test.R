@@ -1,4 +1,6 @@
-library(causalwiz)
+# Development testing script
+library(devtools)
+load_all()
 
 # Load data
 data(welfare_small)
