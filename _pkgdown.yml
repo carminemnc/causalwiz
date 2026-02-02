@@ -1,5 +1,10 @@
 url: https://carminemnc.github.io/causalwiz
 
+home:
+  title: Causal inference toolkit
+  sidebar:
+    structure: [links, authors]
+
 template:
   bootstrap: 5
   bslib:
@@ -42,4 +47,3 @@ reference:
     desc: Datasets
     contents:
     - welfare_small
-

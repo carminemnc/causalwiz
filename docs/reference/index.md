@@ -4,9 +4,9 @@
 
 Package overview
 
-- [`causalwiz-package`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
-  [`causalwiz`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
-  : causalwiz: A Package for Causal Inference Analysis
+- [`causalwiz`](https://carminemnc.github.io/causalwiz/reference/causalwiz-package.md)
+  [`causalwiz-package`](https://carminemnc.github.io/causalwiz/reference/causalwiz-package.md)
+  : causalwiz: Tools for Causal Inference Analysis
 
 ## Aesthetics
 

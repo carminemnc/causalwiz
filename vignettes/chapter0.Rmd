@@ -1,8 +1,8 @@
 ---
-title: "Capitolo 0"
+title: "Capitolo zero"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Capitolo 0}
+  %\VignetteIndexEntry{Capitolo zero}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

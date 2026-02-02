@@ -1,3 +1,3 @@
-# Capitolo 0
+# Capitolo zero
 
 ## Perchè l’inferenza causale?

@@ -3,4 +3,4 @@
 ### All vignettes
 
 - [Capitolo
-  0](https://carminemnc.github.io/causalwiz/articles/chapter0.md):
+  zero](https://carminemnc.github.io/causalwiz/articles/chapter0.md):

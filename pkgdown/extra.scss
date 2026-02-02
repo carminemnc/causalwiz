@@ -11,6 +11,52 @@ $platinum: #eaeaea;
 $white: #ffffff;
 $amber: #FFBF00;
 
+// Navbar link base styling
+.navbar-nav .nav-link {
+  position: relative;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  
+  &:hover, &:focus, &:active {
+    text-decoration: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+// Pencil-like highlighter effect
+.navbar-nav .nav-link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  width: 0;
+  height: 70%;
+  background: linear-gradient(90deg,
+    rgba(0, 139, 139, 0.4) 0%,
+    rgba(0, 139, 139, 0.6) 50%,
+    rgba(0, 139, 139, 0.3) 100%);
+  transition: width 0.4s ease-out;
+  transform: translateY(-50%) skewX(-5deg);
+  border-radius: 2px;
+  z-index: -1;
+}
+
+// Show highlighter on hover/active
+.navbar-nav .nav-link:hover::before,
+.navbar-nav .nav-link.active::before {
+  width: 100%;
+}
+
+// Fade out other highlights when hovering navbar
+.navbar-nav:hover .nav-link:not(:hover)::before {
+  width: 0 !important;
+  transition: width 0.6s ease-in;
+}
+
 // Fonts styling
 body {font-size: 16px;}
 h1 { font-size: 27px; font-weight: bold;}
@@ -51,6 +97,28 @@ footer {display: none;}
     overflow-x: auto;
   }
 
+  .dropdown-menu {
+    background-color: $platinum;
+    border: 1px solid rgba(0, 139, 139, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 4px 0;
+    margin-top: 4px;
+  }
+
+  .dropdown-item {
+    color: $black;
+    padding: 6px 16px;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+    border: none;
+
+    &:hover {
+      background-color: rgba(0, 139, 139, 0.1);
+      color: $dark-cyan;
+    }
+  }
+
   .sidebar { background-color: $platinum; }
 }
 
@@ -79,6 +147,28 @@ footer {display: none;}
     color: $platinum;
     box-shadow: 0 0 10px rgba(0, 139, 139, 0.3);
     overflow-x: auto;
+  }
+
+  .dropdown-menu {
+    background-color: $eerie-black;
+    border: 1px solid rgba(0, 139, 139, 0.3);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    padding: 4px 0;
+    margin-top: 4px;
+  }
+
+  .dropdown-item {
+    color: $platinum;
+    padding: 6px 16px;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+    border: none;
+
+    &:hover {
+      background-color: rgba(0, 139, 139, 0.2);
+      color: $amber;
+    }
   }
 
   .sidebar { background-color: $eerie-black; }

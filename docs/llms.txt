@@ -38,9 +38,9 @@ results <- ipw_estimators(
 
 Package overview
 
-- [`causalwiz-package`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
-  [`causalwiz`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
-  : causalwiz: A Package for Causal Inference Analysis
+- [`causalwiz`](https://carminemnc.github.io/causalwiz/reference/causalwiz-package.md)
+  [`causalwiz-package`](https://carminemnc.github.io/causalwiz/reference/causalwiz-package.md)
+  : causalwiz: Tools for Causal Inference Analysis
 
 ## Aesthetics
 
@@ -81,4 +81,4 @@ Datasets
 ### All vignettes
 
 - [Capitolo
-  0](https://carminemnc.github.io/causalwiz/articles/chapter0.md):
+  zero](https://carminemnc.github.io/causalwiz/articles/chapter0.md):
