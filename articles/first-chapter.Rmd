@@ -5,7 +5,7 @@ description: "Accenno all'inferenza causale e i suoi concetti"
 date: "2026-02-02"
 output:
   html_document:
-    css: "./light-theme.scss"
+    css: "./themes/light-theme.scss"
 ---
 
 
