@@ -1,0 +1,19 @@
+---
+title: "Capitolo 0"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Capitolo 0}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# [Perchè l'inferenza causale?]{.highlight}

@@ -1,0 +1,84 @@
+# 
+
+`causalwiz` is an R package for causal inference analysis. It provides
+tools for estimating treatment effects using various methods including
+Inverse Probability Weighting (IPW) and Augmented Inverse Probability
+Weighting (AIPW).
+
+## Installation
+
+You can install the package via Github repository:
+
+``` r
+# install.packages("pak")
+pak::pak("carminemnc/causalwiz")
+```
+
+## Usage
+
+``` r
+library(causalwiz)
+
+# Load example data
+data("welfare_small")
+
+# Perform causal analysis
+results <- ipw_estimators(
+  data = welfare_small,
+  estimation_method = "IPW",
+  outcome = "y",
+  treatment = "w",
+  covariates = c("age", "polviews", "income", "educ", "marital", "sex")
+)
+```
+
+# Package index
+
+## Overview
+
+Package overview
+
+- [`causalwiz-package`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
+  [`causalwiz`](https://carminemnc.github.io/causalwiz/reference/causalwiz.md)
+  : causalwiz: A Package for Causal Inference Analysis
+
+## Aesthetics
+
+Visualization and plotting functions
+
+- [`cov_bal_plot()`](https://carminemnc.github.io/causalwiz/reference/cov_bal_plot.md)
+  : Create covariates balance plot
+- [`prop_plot()`](https://carminemnc.github.io/causalwiz/reference/prop_plot.md)
+  : Create propensity score distribution plot
+- [`ctheme()`](https://carminemnc.github.io/causalwiz/reference/ctheme.md)
+  : Custom theme for ggplot2
+
+## Estimators
+
+Treatment effect estimation methods
+
+- [`ipw_estimators()`](https://carminemnc.github.io/causalwiz/reference/ipw_estimators.md)
+  : Estimate treatment effects using IPW or AIPW methods
+- [`aipw_balancer()`](https://carminemnc.github.io/causalwiz/reference/aipw_balancer.md)
+  : Calculate covariate balance metrics
+
+## Utilities
+
+Utilities functions
+
+- [`get_formula()`](https://carminemnc.github.io/causalwiz/reference/get_formula.md)
+  : Generate formula for model specification
+
+## Datasets
+
+Datasets
+
+- [`welfare_small`](https://carminemnc.github.io/causalwiz/reference/welfare_small.md)
+  : Welfare Dataset (Small Version)
+
+# Articles
+
+### All vignettes
+
+- [Capitolo
+  0](https://carminemnc.github.io/causalwiz/articles/chapter0.md):

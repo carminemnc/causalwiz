@@ -1,0 +1,45 @@
+url: https://carminemnc.github.io/causalwiz
+
+template:
+  bootstrap: 5
+  bslib:
+    base_font: {google: "Noto Serif"}
+    heading_font: {google: "Noto Serif"}
+  light-switch: true
+  includes:
+    in_header: <link href="extra.css" rel="stylesheet">
+
+navbar:
+  structure:
+    left:  [articles, functions]
+    right: [github, lightswitch]
+  components:
+    functions:
+      text: Functions
+      href: reference/index.html
+
+reference:
+  - title: Overview
+    desc: Package overview
+    contents:
+    - causalwiz
+  - title: Aesthetics
+    desc: Visualization and plotting functions
+    contents:
+    - cov_bal_plot
+    - prop_plot
+    - ctheme
+  - title: Estimators
+    desc: Treatment effect estimation methods
+    contents:
+    - ipw_estimators
+    - aipw_balancer
+  - title: Utilities
+    desc: Utilities functions
+    contents:
+    - get_formula
+  - title: Datasets
+    desc: Datasets
+    contents:
+    - welfare_small
+

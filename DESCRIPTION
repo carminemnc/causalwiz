@@ -1,6 +1,6 @@
 Package: causalwiz
 Type: Package
-Title: Tools for Causal Inference Analysis and Visualization
+Title: Tools for causal inference analysis
 Version: 0.1.0
 Author: Carmine Minichini
 Maintainer: Carmine Minichini <carmine.mnc@gmail.com>
@@ -24,7 +24,9 @@ Imports:
     splines,
     ggplot2,
     stats,
-    rlang
+    rlang,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.3.2
-URL: https://github.com/carminemnc/causalwiz
+URL: https://carminemnc.github.io/causalwiz
 BugReports: https://github.com/carminemnc/causalwiz/issues
