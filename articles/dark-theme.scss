@@ -1,0 +1,251 @@
+/*-- scss:defaults --*/
+
+// Import fonts
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+
+// Personal palette
+$blue-munsell: #0085a1;
+$cerulean: #006b86;
+$midnight-green: #00526c;
+$dark-cyan: #008b8b;
+$davys-gray: #5a5856;
+$battleship-gray: #949799;
+$eerie-black: #242728;
+$black: #000000;
+$platinum: #eaeaea;
+$white: #ffffff;
+$amber: #FFBF00;
+
+// Base colors
+$navbar-bg: $blue-munsell;
+$navbar-fg: $white; 
+$navbar-hl: $white; 
+$body-bg: $eerie-black;
+$body-color: $platinum;
+$link-color: $dark-cyan;
+$code-block-border-left: $dark-cyan;
+
+/*-- scss:rules --*/
+
+// Base styling
+body {
+  font-family: 'Noto Serif', serif;
+  background-color: $body-bg;
+  color: $body-color;
+  line-height: 1.5;
+  font-size: 16px;
+  margin: 0;
+  padding: 20px;
+}
+
+// Headers
+h1 { font-size: 27px; font-weight: bold; color: $platinum; }
+h2 { font-size: 26px; font-weight: bold; color: $platinum; }
+h3 { font-size: 25px; font-weight: bold; color: $platinum; }
+h4 { font-size: 18px; font-weight: bold; color: $platinum; }
+h5, h6 { font-size: 18px; font-weight: bold; color: $platinum; }
+
+// Links
+a { color: $link-color; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+// Code styling
+code {
+  color: $amber;
+  font-weight: bold;
+  background-color: rgba(255, 191, 0, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: $eerie-black;
+  padding: 8px;
+  border-radius: 4px;
+  border-left: 4px solid $code-block-border-left;
+  color: $platinum;
+  box-shadow: 0 0 10px rgba(0, 139, 139, 0.3);
+  overflow-x: auto;
+}
+
+// Code output styling
+.cell-output,
+.cell-output pre,
+.cell-output-stdout,
+.cell-output-stderr {
+  background-color: $eerie-black;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.cell-output pre {
+  border-left: 4px solid $dark-cyan;
+  color: $platinum;
+  box-shadow: 0 0 10px rgba(0, 139, 139, 0.3);
+}
+
+// TOC styling
+#TOC {
+  background-color: rgba(36, 39, 40, 0.8);
+  border: 1px solid $davys-gray;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#TOC ul { list-style: none; padding-left: 0; }
+#TOC li { margin: 5px 0; padding-left: 15px; }
+#TOC a { color: $dark-cyan; font-weight: 500; }
+#TOC a:hover { color: $amber; }
+
+// Figure captions
+.figure-caption {
+  color: $platinum;
+  font-style: italic;
+  text-align: center;
+  font-size: 12px;
+}
+
+// Blockquotes
+blockquote {
+  background: linear-gradient(135deg, $eerie-black, rgba(36, 39, 40, 0.95));
+  font-style: italic;
+  font-weight: 400;
+  color: $platinum;
+  border-radius: 3px 15px 3px 15px;
+  border-left: 4px solid $dark-cyan;
+  font-size: 15px;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 70%;
+  transform: rotate(-1deg);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.2), 
+    0 2px 6px rgba(0, 0, 0, 0.15), 
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 139, 139, 0.3);
+}
+
+// Callout styling
+.callout-note {
+  font-style: italic;
+  font-size: 15px;
+}
+
+// Custom classes
+.justify { text-align: justify !important; }
+
+.highlight { 
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 15% -3px;
+    background: linear-gradient(90deg, rgba(1,132,160,0.3), rgba(1,132,160,0.6), rgba(1,132,160,0.3));
+    transform: skew(-2deg, -0.8deg);
+    border-radius: 8px 2px 6px 1px;
+    z-index: -1;
+  }
+}
+
+.circled { 
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border: 3px solid $dark-cyan;
+    border-radius: 65% 35% 70% 30%;
+    transform: rotate(-2deg);
+    opacity: 0.6;
+  }
+}
+
+.double-underline { 
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(0, 139, 139, 0.8), transparent);
+    transform: rotate(-0.5deg);
+    border-radius: 50%;
+  }
+}
+
+.insight {
+  background: transparent;
+  font-size: 15px;
+  padding: 20px 25px;
+  margin: 25px auto;
+  max-width: 60%;
+  position: relative;
+  border-left: 3px solid $dark-cyan;
+  border-radius: 2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  
+  &::before {
+    content: "💡";
+    position: absolute;
+    left: -15px;
+    top: -10px;
+    font-size: 22px;
+    background: $eerie-black;
+    padding: 5px;
+    border-radius: 50%;
+    border: 2px solid $dark-cyan;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 18px,
+      rgba(0, 139, 139, 0.2) 18px,
+      rgba(0, 139, 139, 0.2) 20px
+    );
+  }
+}
+
+// Grid layout support
+.grid { display: grid; gap: 1rem; }
+.g-col-6 { grid-column: span 6; }
+
+// Card styling
+.card {
+  background-color: $eerie-black;
+  border-color: $davys-gray;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+// Button styling
+.btn {
+  color: $platinum;
+  background-color: $eerie-black;
+  border-color: $davys-gray;
+  border-radius: 20px;
+  font-size: 15px;
+  padding: 8px 16px;
+  border: 1px solid;
+  cursor: pointer;
+  
+  &:hover {
+    color: $black;
+    background-color: $blue-munsell;
+    border-color: $davys-gray;
+  }
+}
