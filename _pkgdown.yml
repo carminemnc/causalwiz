@@ -17,11 +17,15 @@ template:
 navbar:
   structure:
     left:  [articles, functions]
-    right: [github, lightswitch]
+    right: [website, github, lightswitch]
   components:
     functions:
       text: Functions
       href: reference/index.html
+    website:
+      icon: fas fa-globe
+      href: https://carminemnc.github.io
+      aria-label: Portfolio
 
 reference:
   - title: Overview

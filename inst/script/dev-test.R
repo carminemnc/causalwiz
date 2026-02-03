@@ -2,7 +2,7 @@
 library(devtools)
 load_all()
 
-theme_set(ctheme("dark"))
+theme_set(ctheme("light"))
 
 # Load data
 data(welfare_small)

@@ -1,9 +1,9 @@
 # 
 
 `causalwiz` is an R package for causal inference analysis. It provides
-tools for estimating treatment effects using various methods including
-Inverse Probability Weighting (IPW) and Augmented Inverse Probability
-Weighting (AIPW).
+functions for estimating treatment effects using various statistical
+methods, features built-in plotting functions an utilities designed for
+causal inference workflows in R.
 
 ## Installation
 
@@ -80,5 +80,5 @@ Datasets
 
 ### All vignettes
 
-- [Capitolo
-  zero](https://carminemnc.github.io/causalwiz/articles/chapter0.md):
+- [Chapter
+  zero](https://carminemnc.github.io/causalwiz/articles/chapter-zero.md):
