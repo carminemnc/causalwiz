@@ -13,21 +13,3 @@ You can install the package via Github repository:
 # install.packages("pak")
 pak::pak("carminemnc/causalwiz")
 ```
-
-## Usage
-
-``` r
-library(causalwiz)
-
-# Load example data
-data("welfare_small")
-
-# Perform causal analysis
-results <- ipw_estimators(
-  data = welfare_small,
-  estimation_method = "IPW",
-  outcome = "y",
-  treatment = "w",
-  covariates = c("age", "polviews", "income", "educ", "marital", "sex")
-)
-```
